@@ -6,8 +6,18 @@ let app = express();
 let server = http.Server(app);
 let io = new SocketIO(server);
 
+const port = 3000
+
+var clients = []
+
 io.on('connection', (socket) => {
-    socket.emit('hello')
+    clients.push(socket)
+
+    socket.on('delta', (delta) => {
+        for (const client of clients) {
+            client.emit('delta', delta)
+        }
+    })
 });
 
 server.listen(port, () => {
