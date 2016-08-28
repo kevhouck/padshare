@@ -19,9 +19,9 @@ export default class Proxy {
             }
         })
 
-        this.socket.on('delta', (delta) => {
+        this.socket.on('delta', (deltaMsg) => {
             if(this.receivedDelta) {
-                this.receivedDelta(delta)
+                this.receivedDelta(deltaMsg)
             }
         })
 
