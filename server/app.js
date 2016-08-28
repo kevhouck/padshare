@@ -9,13 +9,24 @@ let io = new SocketIO(server);
 const port = 3000
 
 var clients = []
+var deltaMsgs =[]
 
 io.on('connection', (socket) => {
+    socket.on('disconnect', () => {
+        socket.removeAllListeners('delta')
+    })
+
     clients.push(socket)
 
-    socket.on('delta', (delta) => {
+    for(const deltaMsg of deltaMsgs) {
+        socket.emit('delta', deltaMsg)
+    }
+
+    socket.on('delta', (deltaMsg) => {
+        deltaMsgs.push(deltaMsg)
+
         for (const client of clients) {
-            client.emit('delta', delta)
+            client.emit('delta', deltaMsg)
         }
     })
 });
