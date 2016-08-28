@@ -1,7 +1,3 @@
-var quill = new Quill('#editor', {
-    theme: 'snow'
-});
+import EditorController from './editor_controller'
 
-quill.on('text-change', (delta, oldDocDelta, source) => {
-    console.log(delta)
-});
+var controller = new EditorController()

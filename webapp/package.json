@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "quill": "^0.20.1"
+    "quill": "^0.20.1",
+    "socket.io-client": "^1.4.8"
   },
   "devDependencies": {
     "babel": "^6.5.2",
