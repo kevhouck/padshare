@@ -1,35 +1,17 @@
 <!doctype html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Collaborative RTF Editor</title>
+    </head>
+    <body>
+        <!-- Easier to load these from their CDNs -->
+        <link href="https://cdn.quilljs.com/1.0.0-rc.2/quill.snow.css" rel="stylesheet">
+        <script src="https://cdn.quilljs.com/1.0.0-rc.2/quill.js"></script>
+        <link href="//cdn.muicss.com/mui-0.7.3/css/mui.min.css" rel="stylesheet" type="text/css" />
+        <script src="//cdn.muicss.com/mui-0.7.3/js/mui.min.js"></script>
 
-<html lang="en">
-<head>
-
-</head>
-<body>
-<!-- Include stylesheet -->
-<link href="https://cdn.quilljs.com/1.0.0-rc.2/quill.snow.css" rel="stylesheet">
-<!-- Include the Quill library -->
-<script src="https://cdn.quilljs.com/1.0.0-rc.2/quill.js"></script>
-<link href="//cdn.muicss.com/mui-0.7.3/css/mui.min.css" rel="stylesheet" type="text/css" />
-<script src="//cdn.muicss.com/mui-0.7.3/js/mui.min.js"></script>
-<div id="main-page">
-    <div id="main-page-inner-container">
-        <form>
-            <span class="mui-textfield">
-                <input id="document-id-textfield" type="text" placeholder="Select Document with Id">
-            </span>
-        </form>
-
-        <button id="select-doc-btn" class="mui-btn mui-btn--raised">Go To Document</button>
-        <button id="create-doc-btn" class="mui-btn mui-btn--raised">Create Document</button>
-    </div>
-</div>
-
-<div id="document-page">
-    <!-- Create the editor container -->
-    <div id="editor"></div>
-
-</div>
-
-</body>
-
+        <!-- Content will be dynamically inserted into this div -->
+        <div id="active-view"></div>
+    </body>
 </html>

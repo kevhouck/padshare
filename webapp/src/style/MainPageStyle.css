@@ -1,12 +1,3 @@
-#main-page {
-    display: none;
-}
-
-#document-page {
-    display: none;
-    margin: 50px;
-}
-
 #newDocButton {
     padding: 25px;
     display: inline;

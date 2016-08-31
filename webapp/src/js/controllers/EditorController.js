@@ -1,14 +1,25 @@
-import DocumentProxy from '../utils/DocumentProxy'
-import GeneralProxy from '../utils/GeneralProxy'
+import DocumentProxy from '../networking/DocumentProxy'
+import GeneralProxy from '../networking/GeneralProxy'
 import uuid from 'uuid'
 import $ from 'jquery'
+const EditorView = require('../../views/EditorView.html')
+require('../../style/EditorStyle.css')
 
 export default class EditorController {
     constructor(documentId) {
         console.log('Editor Controller')
 
+        this.view = EditorView
+
         this.documentId = documentId
         this.deltas = []
+    }
+
+    getView() {
+        return this.view
+    }
+
+    viewLoaded() {
         this.editor = new Quill('#editor', {
             theme: 'snow'
         });
@@ -19,7 +30,7 @@ export default class EditorController {
                 throw new Error()
             }
 
-            this.proxy = new DocumentProxy(documentId)
+            this.proxy = new DocumentProxy(this.documentId)
             setupHooks(this.editor, this.proxy, this.deltas)
             this.proxy.connect()
         })

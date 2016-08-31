@@ -6,6 +6,7 @@ import _ from 'lodash'
 export default class Router {
     constructor() {
         this.activeController = null
+        this.activeView = $('#active-view')
     }
 
     route(path) {
@@ -25,8 +26,10 @@ export default class Router {
                     window.location.hash = "/#"
                 }
 
-                $('#main-page').hide()
-                $('#document-page').show()
+
+                this.activeView.empty().append($(this.activeController.getView()))
+                this.activeController.viewLoaded()
+
             } catch (e) {
                 console.log(e)
                 // go back to main
@@ -38,8 +41,10 @@ export default class Router {
             }
             this.activeController = new MainPageController()
 
-            $('#main-page').show()
-            $('#document-page').hide()
+
+            this.activeView.empty().append($(this.activeController.getView()))
+            this.activeController.viewLoaded()
+
         } else {
             // redirect
             window.location.hash = "#/"
