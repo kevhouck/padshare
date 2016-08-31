@@ -3,7 +3,7 @@ const babel = require('gulp-babel');
 const watch = require('gulp-watch')
 
 gulp.task('default', () => {
-    return watch('*.js', {
+    return watch('src/**/*.js', {
         ignoreInitial: false,
         verbose: true
     })

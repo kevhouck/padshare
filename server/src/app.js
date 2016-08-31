@@ -2,7 +2,7 @@ import SocketIO from 'socket.io';
 import express from 'express';
 import http from 'http';
 import uuid from 'uuid';
-import DatabaseProxy from './InMemDatabaseProxy'
+import DatabaseProxy from './persistence/RedisDatabaseProxy'
 import cors from 'cors'
 import morgan from 'morgan'
 
@@ -26,8 +26,13 @@ app.post('/document', (req, res) => {
     const namespace = io.of('/' + id)
     setupNamespace(namespace)
     namespaces[id] = namespace
-    deltaDb.addDocument(id)
-    res.send({ documentId: id })
+    deltaDb.createDocument(id, (err) => {
+        if (err) {
+            res.sendStatus(500)
+            return
+        }
+        res.send({ documentId: id })
+    })
 })
 
 /**
@@ -36,7 +41,12 @@ app.post('/document', (req, res) => {
 app.get('/document/:documentId', (req, res) => {
     const { documentId } = req.params
     if (documentId) {
-        if (deltaDb.doesDocumentExist(documentId)) {
+        deltaDb.doesDocumentExist(documentId, (err, doesExist) => {
+            if (err || doesExist === false) {
+                res.sendStatus(404)
+                return
+            }
+
             if (!namespaces[documentId]) {
                 const namespace = io.of('/' + documentId)
                 setupNamespace(namespace)
@@ -44,11 +54,10 @@ app.get('/document/:documentId', (req, res) => {
             }
             res.send({ documentId: documentId })
             return
-        }
-        res.sendStatus(404)
-        return
+        })
+    } else {
+        res.sendStatus(400)
     }
-    res.sendStatus(400)
 })
 
 server.listen(port, () => {
@@ -59,11 +68,15 @@ const setupNamespace = (namespace) => {
     namespace.on('connection', (socket) => {
         console.log('user connected')
 
-        const deltaMessages = deltaDb.getDeltaMessages(namespace.name.replace('/', ''))
+        deltaDb.getDeltaMessages(namespace.name.replace('/', ''), (err, deltaMessages) => {
+            if (err) {
+                return
+            }
 
-        for (const deltaMessage of deltaMessages) {
-            socket.emit('delta', deltaMessage)
-        }
+            for (const deltaMessage of deltaMessages) {
+                socket.emit('delta', deltaMessage)
+            }
+        })
 
         socket.on('delta', (deltaMessage) => {
             console.log('received delta')
