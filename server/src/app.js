@@ -5,20 +5,22 @@ import DatabaseProxy from './persistence/RedisDatabaseProxy'
 import cors from 'cors'
 import morgan from 'morgan'
 import { setupRoutes } from './networking/rest'
+import config from './config'
+import Logger from './logging/logger'
 
+const logger = new Logger(config.logging.verbosity)
 let app = express();
 let server = http.Server(app);
 let io = new SocketIO(server);
-let port = 3000
 
 var namespaces = {}
-var deltaDb = new DatabaseProxy()
+var database = new DatabaseProxy(config.redis.hostname, config.redis.port, logger)
 
 app.use(morgan('combined'))
 app.use(cors());
 
-setupRoutes(app, io, deltaDb, namespaces)
+setupRoutes(app, io, database, namespaces, logger)
 
-server.listen(port, () => {
-    console.log('[INFO] Listening on *:' + port);
+server.listen(config.web.port, config.web.hostname, () => {
+    logger.log('INFO',  'Listening on ' + config.web.hostname +':' + config.web.port);
 });

@@ -1,8 +1,8 @@
-export const setupNamespace = (namespace, deltaDb) => {
+export const setupNamespace = (namespace, database, logger) => {
     namespace.on('connection', (socket) => {
-        console.log('user connected')
+        logger.log('INFO', 'User connected')
 
-        deltaDb.getDeltaMessages(namespace.name.replace('/', ''), (err, deltaMessages) => {
+        database.getDeltaMessages(namespace.name.replace('/', ''), (err, deltaMessages) => {
             if (err) {
                 return
             }
@@ -13,13 +13,13 @@ export const setupNamespace = (namespace, deltaDb) => {
         })
 
         socket.on('delta', (deltaMessage) => {
-            console.log('received delta')
-            deltaDb.addDeltaMessage(namespace.name.replace('/', ''), deltaMessage)
+            logger.log('INFO', 'Received delta message ' + JSON.stringify(deltaMessage))
+            database.addDeltaMessage(namespace.name.replace('/', ''), deltaMessage)
             socket.nsp.emit('delta', deltaMessage)
         })
 
         socket.on('disconnect', () => {
-            console.log('user disconnected')
+            logger.log('INFO', 'User disconnected')
         })
     })
 }

@@ -1,7 +1,7 @@
 import uuid from 'uuid';
 import { setupNamespace } from './realtime'
 
-export const setupRoutes = (app, io, deltaDb, namespaces) => {
+export const setupRoutes = (app, io, database, namespaces, logger) => {
     /**
      * Creates the a new document and returns its id
      */
@@ -9,11 +9,12 @@ export const setupRoutes = (app, io, deltaDb, namespaces) => {
         // create namespace
         const id = uuid.v4()
         const namespace = io.of('/' + id)
-        setupNamespace(namespace, deltaDb)
+        setupNamespace(namespace, database, logger)
         namespaces[id] = namespace
-        deltaDb.createDocument(id, (err) => {
+        database.createDocument(id, (err) => {
             if (err) {
                 res.sendStatus(500)
+                logger.log('ERROR', "Create document failed due to db")
                 return
             }
             res.send({ documentId: id })
@@ -26,7 +27,7 @@ export const setupRoutes = (app, io, deltaDb, namespaces) => {
     app.get('/document/:documentId', (req, res) => {
         const { documentId } = req.params
         if (documentId) {
-            deltaDb.doesDocumentExist(documentId, (err, doesExist) => {
+            database.doesDocumentExist(documentId, (err, doesExist) => {
                 if (err || doesExist === false) {
                     res.sendStatus(404)
                     return
@@ -34,7 +35,7 @@ export const setupRoutes = (app, io, deltaDb, namespaces) => {
 
                 if (!namespaces[documentId]) {
                     const namespace = io.of('/' + documentId)
-                    setupNamespace(namespace, deltaDb)
+                    setupNamespace(namespace, database, logger)
                     namespaces[documentId] = namespace
                 }
                 res.send({ documentId: documentId })

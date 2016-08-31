@@ -4,9 +4,9 @@ import redis from 'redis'
  * Abstracts the connection to Redis.
  */
 export default class RedisDatabaseProxy {
-    constructor() {
+    constructor(hostname, port) {
         // connect to localhost port 6379
-        this.redisClient = redis.createClient()
+        this.redisClient = redis.createClient({ host: hostname, port: port })
     }
 
     /**
