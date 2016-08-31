@@ -1,17 +1,35 @@
-import Proxy from './networking'
+import DocumentProxy from '../utils/DocumentProxy'
+import GeneralProxy from '../utils/GeneralProxy'
 import uuid from 'uuid'
+import $ from 'jquery'
 
 export default class EditorController {
-    constructor() {
+    constructor(documentId) {
+        console.log('Editor Controller')
+
+        this.documentId = documentId
         this.deltas = []
-        this.proxy = new Proxy()
         this.editor = new Quill('#editor', {
             theme: 'snow'
         });
 
-        setupHooks(this.editor, this.proxy, this.deltas)
+        this.generalProxy = new GeneralProxy()
+        this.generalProxy.loadDocument(this.documentId, (err, res) => {
+            if (err) {
+                throw new Error()
+            }
 
-        this.proxy.connect()
+            this.proxy = new DocumentProxy(documentId)
+            setupHooks(this.editor, this.proxy, this.deltas)
+            this.proxy.connect()
+        })
+    }
+
+    tearDown() {
+        // remove editor
+        $('#editor').replaceWith('<div id="editor"></div>')
+        // remove editor toolbar
+        $('.ql-toolbar').remove()
     }
 }
 
@@ -29,6 +47,7 @@ const setupHooks = (editor, proxy, deltaMsgs) => {
                 id: uuid.v4(),
                 delta: delta
             }
+            console.log('sent delta')
             deltaMsgs.push(deltaMsg)
             proxy.sendDelta(deltaMsg)
         }

@@ -1,16 +1,17 @@
 import io from 'socket.io-client'
+import $ from 'jquery'
 
 /**
  * Abstraction for the connection to the backend. Uses delegate methods to hide the protocol we are using
  */
-export default class Proxy {
-    constructor() {
-
+export default class DocumentProxy {
+    constructor(documentId) {
+        this.documentId = documentId
     }
 
     connect() {
         // connect to backend
-        this.socket = io('http://localhost:3000')
+        this.socket = io('http://localhost:3000/' + this.documentId)
 
         // setup socket messages callbacks
         this.socket.on('connect', () => {
@@ -30,8 +31,9 @@ export default class Proxy {
                 this.disconnected()
             }
         })
-
     }
+
+
 
     /**
      * Sets up the function to call when a delta is received

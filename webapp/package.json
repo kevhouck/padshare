@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "export NODE_ENV=\"development\" && node server.js",
+    "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "jquery": "^3.1.0",
+    "lodash": "^4.15.0",
     "quill": "^0.20.1",
     "socket.io-client": "^1.4.8",
     "uuid": "^2.0.2"
@@ -22,6 +25,8 @@
     "css-loader": "^0.24.0",
     "file-loader": "^0.9.0",
     "html-webpack-plugin": "^2.22.0",
+    "proxy-middleware": "^0.15.0",
+    "raw-loader": "^0.5.1",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.15.0"
