@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
-import $ from 'jquery'
+import config from '../config/config'
 
 /**
  * Abstraction for the connection to the backend. Uses delegate methods to hide the protocol we are using
@@ -11,7 +11,7 @@ export default class DocumentProxy {
 
     connect() {
         // connect to backend
-        this.socket = io('http://localhost:3000/' + this.documentId)
+        this.socket = io('http://' + config.server.hostname +':' + config.server.port + '/' + this.documentId)
 
         // setup socket messages callbacks
         this.socket.on('connect', () => {

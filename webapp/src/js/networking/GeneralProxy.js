@@ -1,14 +1,17 @@
 import $ from 'jquery'
+import config from '../config/config'
 
 export default class GeneralProxy {
     constructor() {
-
+        this.hostname = config.hostname
+        this.port = config.port
+        this.url = 'http://'+ this.hostname + ':' + this.port
     }
 
     createDocument(callback) {
         $.ajax({
-            type: "POST",
-            url: "http://localhost:3000/document",
+            type: 'POST',
+            url: this.url + '/document',
             success: (data, textStatus, res) => {
                 callback(null, data)
             },
@@ -21,7 +24,7 @@ export default class GeneralProxy {
     loadDocument(documentId, callback) {
         $.ajax({
             type: "GET",
-            url: "http://localhost:3000/document/" + documentId,
+            url: this.url +  '/document' + documentId,
             success: (data, textStatus, res) => {
                 callback(null, data)
             },
