@@ -5,7 +5,7 @@ export const setupRoutes = (app, io, database, namespaces, logger) => {
     /**
      * Creates the a new document and returns its id
      */
-    app.post('/document', (req, res) => {
+    app.post('/api/document', (req, res) => {
         // create namespace
         const id = uuid.v4()
         const namespace = io.of('/' + id)
@@ -24,7 +24,7 @@ export const setupRoutes = (app, io, database, namespaces, logger) => {
     /**
      * Verifies that the document exists, and if so verifies a namespace exists for it
      */
-    app.get('/document/:documentId', (req, res) => {
+    app.get('/api/document/:documentId', (req, res) => {
         const { documentId } = req.params
         if (documentId) {
             database.doesDocumentExist(documentId, (err, doesExist) => {

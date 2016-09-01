@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
-import config from '../config/config'
+import { config } from '../config/config'
 
 /**
  * Abstraction for the connection to the backend. Uses delegate methods to hide the protocol we are using
