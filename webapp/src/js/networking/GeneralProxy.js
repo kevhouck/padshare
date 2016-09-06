@@ -3,7 +3,6 @@ import { config } from '../config/config'
 
 export default class GeneralProxy {
     constructor() {
-        debugger
         this.hostname = config.server.hostname
         this.port = config.server.port
         this.url = 'http://'+ this.hostname + ':' + this.port
