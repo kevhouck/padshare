@@ -24,7 +24,7 @@ export default class GeneralProxy {
     loadDocument(documentId, callback) {
         $.ajax({
             type: "GET",
-            url: this.url +  '/api/document' + documentId,
+            url: this.url +  '/api/document/' + documentId,
             success: (data, textStatus, res) => {
                 callback(null, data)
             },
