@@ -19,14 +19,8 @@ var database = new DatabaseProxy(config.redis.hostname, config.redis.port, logge
 
 app.use(morgan('combined'))
 app.use(cors());
-app.use(express.static(path.resolve('webapp/dist')))
 
 setupRoutes(app, io, database, namespaces, logger)
-
-
-app.get('/*', (req, res) => {
-    res.sendFile(path.resolve('webapp/dist/index.html'))
-})
 
 server.listen(config.web.port, config.web.hostname, () => {
     logger.log('INFO',  'Listening on ' + config.web.hostname +':' + config.web.port);
