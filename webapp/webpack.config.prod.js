@@ -25,6 +25,5 @@ module.exports = {
             inject: 'body'
         }),
         new webpack.HotModuleReplacementPlugin(),
-    ],
-    devtool : 'source-map'
+    ]
 };
