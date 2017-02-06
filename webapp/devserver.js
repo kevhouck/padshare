@@ -24,5 +24,5 @@ var server = new WebpackDevServer(webpack(config), {
     stats: { colors: true }
 });
 
-server.listen(8081, "localhost", function() {});
-app.listen(8080);
+server.listen(8081, "0.0.0.0", function() {});
+app.listen(8080, "0.0.0.0");
