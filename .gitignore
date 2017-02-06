@@ -103,3 +103,4 @@ fabric.properties
 ### User Added : ###
 ### Webpack ###
 */dist
+redis/data

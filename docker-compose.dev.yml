@@ -1,6 +1,6 @@
 version: '3'
 services:
-  server:
+  core:
     build: server/.
     ports:
      - "3000:3000"
@@ -11,4 +11,17 @@ services:
     environment:
      - NODE_ENV=development
   redis:
-    image: "redis:alpine"
+    build: redis/.
+    ports:
+     - "6379:6379"
+    volumes:
+     - "./redis/data:/var/lib/redis"
+  webapp:
+    build:
+      context: webapp
+      dockerfile: Dockerfile.dev
+    ports:
+     - "80:8080"
+     - "8081:8081"
+    links:
+     - core

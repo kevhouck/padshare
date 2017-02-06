@@ -11,7 +11,11 @@ services:
     environment:
      - NODE_ENV=production
   redis:
-    image: "redis:alpine"
+    build: redis/.
+    ports:
+     - "6379:6379"
+    volumes:
+     - "./redis/data:/var/lib/redis"
   webapp:
     build:
       context: webapp
