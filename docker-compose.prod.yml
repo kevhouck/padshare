@@ -1,0 +1,22 @@
+version: '3'
+services:
+  core:
+    build: server
+    ports:
+     - "3000:3000"
+    links:
+     - redis
+    depends_on:
+     - redis
+    environment:
+     - NODE_ENV=production
+  redis:
+    image: "redis:alpine"
+  webapp:
+    build:
+      context: webapp
+      dockerfile: Dockerfile.prod
+    ports:
+     - "80:80"
+    links:
+     - core

@@ -10,3 +10,10 @@ gulp.task('default', () => {
         .pipe(babel())
         .pipe(gulp.dest('dist'));
 });
+
+gulp.task('build', () => {
+    return gulp.src('src/**/*.js')
+        .pipe(babel())
+        .pipe(gulp.dest('dist'));
+});
+

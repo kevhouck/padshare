@@ -22,6 +22,6 @@ app.use(cors());
 
 setupRoutes(app, io, database, namespaces, logger)
 
-server.listen(config.web.port, config.web.hostname, () => {
-    logger.log('INFO',  'Listening on ' + config.web.hostname +':' + config.web.port);
+server.listen(3000, '0.0.0.0', () => {
+    logger.log('INFO',  'Listening on ' + '0.0.0.0' +':' + 3000);
 });

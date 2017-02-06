@@ -4,7 +4,7 @@ export default {
         port: process.env.WEB_PORT || '3000'
     },
     redis: {
-        hostname: process.env.REDIS_HOSTNAME || 'localhost',
+        hostname: process.env.REDIS_HOSTNAME || 'redis',
         port: process.env.REDIS_PORT || '6379'
     },
     logging: {
