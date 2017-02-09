@@ -12,7 +12,7 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.html$/, loader: "raw-loader" },
-            { test: /\.js$/, exclude: [/node_modules/], loaders: ['babel']},
+            { test: /\.js$/, exclude: [/node_modules/], loaders: ['babel-loader']},
             { test: /\.css$/, loader: "style-loader!css-loader" },
             { test: /\.png$/, loader: "url-loader?limit=100000" },
             { test: /\.jpg$/, loader: "file-loader" },
@@ -23,6 +23,7 @@ module.exports = {
             template: __dirname + '/src/index.html',
             filename: 'index.html',
             inject: 'body'
-        })
+        }),
+        new webpack.EnvironmentPlugin(['NODE_ENV', 'CORE_HOSTNAME', 'CORE_PORT'])
     ]
 };

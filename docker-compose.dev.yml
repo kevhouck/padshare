@@ -23,3 +23,6 @@ services:
     ports:
      - "8080:8080"
      - "8081:8081"
+    environment:
+     - CORE_HOSTNAME=localhost
+     - CORE_PORT=3000

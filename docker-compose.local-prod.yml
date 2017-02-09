@@ -21,7 +21,7 @@ services:
       context: webapp
       dockerfile: Dockerfile.prod
       args:
-       - CORE_HOSTNAME=padshare.io
+       - CORE_HOSTNAME=localhost
        - CORE_PORT=3000
     ports:
      - "80:80"

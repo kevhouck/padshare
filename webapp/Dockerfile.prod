@@ -1,8 +1,8 @@
 FROM nginx
 
 # Create app directory
-RUN		mkdir -p /usr/src/app
-WORKDIR		/usr/src/app
+RUN mkdir -p /usr/src/app
+WORKDIR	/usr/src/app
 
 # Install nodejs
 RUN apt-get update
@@ -13,15 +13,20 @@ RUN apt-get install build-essential -y
 
 
 # Install app dependencies
-COPY		package.json /usr/src/app
-RUN		npm install
+COPY package.json .
+RUN npm install
 
-# Bundle app source
-COPY		. /usr/src/app
+# Set build env vars
+ARG CORE_HOSTNAME
+ARG CORE_PORT
+ARG NODE_ENV=production
 
 # Build app
-RUN     npm run build-prod
+COPY . .
+RUN rm -rf dist
+RUN npm run build-prod
 
 # Copy build to nginx server
-RUN       mv dist/* /usr/share/nginx/html
-RUN       ls -la /usr/share/nginx/html
+RUN mv dist/* /usr/share/nginx/html
+
+RUN printenv
