@@ -9,5 +9,7 @@ export default {
     },
     logging: {
         verbosity: process.env.LOGGING_VERBOSITY || 'all' // all, error, none
-    }
+    },
+    https: process.env.HTTPS || 'false',
+    node_env: process.env.NODE_ENV
 }

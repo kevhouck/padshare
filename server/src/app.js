@@ -7,11 +7,9 @@ import morgan from 'morgan'
 import { setupRoutes } from './networking/rest'
 import config from './config'
 import Logger from './logging/logger'
-import path from 'path'
 
 const logger = new Logger(config.logging.verbosity)
 let app = express();
-let server = http.Server(app);
 let io = new SocketIO(server);
 
 var namespaces = {}
@@ -22,6 +20,11 @@ app.use(cors());
 
 setupRoutes(app, io, database, namespaces, logger)
 
-server.listen(3000, '0.0.0.0', () => {
-    logger.log('INFO',  'Listening on ' + '0.0.0.0' +':' + 3000);
-});
+http.createServer(app).listen(80)
+if (config.node_env === 'production' && config.https === true) {
+  const options = {
+    key: fs.readFileSync('/etc/letsencrypt/live/padshare.io/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/padshare.io/cert.pem')
+  }
+  https.createServer(options, app).listen(443)
+}

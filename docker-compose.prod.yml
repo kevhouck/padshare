@@ -10,6 +10,7 @@ services:
      - redis
     environment:
      - NODE_ENV=production
+     - HTTPS=true
   redis:
     build: redis/.
     ports:
