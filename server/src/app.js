@@ -9,15 +9,19 @@ import { setupRoutes } from './networking/rest'
 import config from './config'
 import Logger from './logging/logger'
 
+console.log(process.env)
+
 let app = express();
 let server = null
-if (config.node_env === 'production' && config.https === true) {
+if (config.https === 'true') {
   const options = {
     key: fs.readFileSync('/etc/letsencrypt/live/padshare.io/privkey.pem'),
     cert: fs.readFileSync('/etc/letsencrypt/live/padshare.io/cert.pem')
   }
+  console.log('Creating https server...')
   server = https.createServer(options, app)
 } else {
+  console.log('Creating http server...')
   server = http.createServer(app)
 }
 
@@ -33,3 +37,4 @@ app.use(cors());
 setupRoutes(app, io, database, namespaces, logger)
 
 server.listen(3000)
+console.log('listening on port 3000')
