@@ -28,6 +28,7 @@ RUN rm -rf dist
 RUN npm run build-prod
 
 # Copy build to nginx server
-RUN mv dist/* /usr/share/nginx/html
+RUN mkdir -p /data/www
+RUN mv dist/* /data/www
 
-RUN printenv
+# CMD ["nginx"]
