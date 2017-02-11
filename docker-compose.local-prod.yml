@@ -23,5 +23,6 @@ services:
       args:
        - CORE_HOSTNAME=localhost
        - CORE_PORT=3000
+       - CORE_PROTOCOL=http
     ports:
      - "80:80"

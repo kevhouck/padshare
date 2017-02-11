@@ -11,7 +11,7 @@ export default class DocumentProxy {
 
     connect() {
         // connect to backend
-        this.socket = io('http://' + config.server.hostname +':' + config.server.port + '/' + this.documentId)
+        this.socket = io(config.server.protocol +  '://' + config.server.hostname +':' + config.server.port + '/' + this.documentId)
 
         // setup socket messages callbacks
         this.socket.on('connect', () => {

@@ -3,9 +3,7 @@ import { config } from '../config/config'
 
 export default class GeneralProxy {
     constructor() {
-        this.hostname = config.server.hostname
-        this.port = config.server.port
-        this.url = 'http://'+ this.hostname + ':' + this.port
+        this.url = config.server.protocol + '://'+ config.server.hostname + ':' + config.server.port
     }
 
     createDocument(callback) {

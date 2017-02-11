@@ -26,5 +26,6 @@ services:
       args:
        - CORE_HOSTNAME=padshare.io
        - CORE_PORT=3000
+       - CORE_PROTOCOL=https
     ports:
      - "80:80"

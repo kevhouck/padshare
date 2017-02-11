@@ -26,3 +26,4 @@ services:
     environment:
      - CORE_HOSTNAME=localhost
      - CORE_PORT=3000
+     - CORE_PROTOCOL=http

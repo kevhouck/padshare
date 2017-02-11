@@ -19,6 +19,7 @@ RUN npm install
 # Set build env vars
 ARG CORE_HOSTNAME
 ARG CORE_PORT
+ARG CORE_PROTOCOL
 ARG NODE_ENV=production
 
 # Build app
