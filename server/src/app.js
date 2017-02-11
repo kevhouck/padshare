@@ -8,15 +8,14 @@ import morgan from 'morgan'
 import { setupRoutes } from './networking/rest'
 import config from './config'
 import Logger from './logging/logger'
-
-console.log(process.env)
+import fs from 'fs'
 
 let app = express();
 let server = null
 if (config.https === 'true') {
   const options = {
-    key: fs.readFileSync('/etc/letsencrypt/live/padshare.io/privkey.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/padshare.io/cert.pem')
+    key: fs.readFileSync('/keys/live/padshare.io/privkey.pem'),
+    cert: fs.readFileSync('/keys/live/padshare.io/cert.pem')
   }
   console.log('Creating https server...')
   server = https.createServer(options, app)

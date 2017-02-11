@@ -11,6 +11,8 @@ services:
     environment:
      - NODE_ENV=production
      - HTTPS=true
+    volumes:
+     - "/etc/letsencrypt:/keys"
   redis:
     build: redis/.
     ports:
