@@ -24,6 +24,6 @@ module.exports = {
             filename: 'index.html',
             inject: 'body'
         }),
-        new webpack.EnvironmentPlugin(['NODE_ENV', 'CORE_HOSTNAME', 'CORE_PORT'])
+        new webpack.EnvironmentPlugin(['NODE_ENV', 'CORE_HOSTNAME', 'CORE_PORT', 'CORE_PROTOCOL'])
     ]
 };
