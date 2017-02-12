@@ -1,8 +1,16 @@
-# CollaborativeRtfEditor
-A real-time collaborative rich text editor
+# Padshare
+Padshare is a realtime collaborative editor that supports formatting. Try it out at https://padshare.io
 
-## How does it work?
-The core functionality of this application is to allow multiple users to work on a rich text format document at the same time. The library used to display the doc is Quill.js. Quill.js works by creating a delta for every change. This delta is then sent to the server to be applied to the every other connected client. A delta represents a change in the doc, and does not contain information about the entire doc. The process of sending deltas to multiple clients can lead to race conditions and clients becoming out of sync with one another. The study of this problem calls it an operational transformation. To avoid complicating this project, I use a method for resolving deltas among clients with a 3-tier architecture. Each client has their own representation of the document. When a client makes a change to the docuemnt, a delta is generated. This delta is optimistically applied to the clients document, and then is sent to the server. The server then broadcasts the delta to each client, including the client that sent it the delta. Every other client then applies the delta to their own document, and every client is in sync. So what if multiple clients optimistically update their documents, and a race condition is created? The way this is resolved is that the server will broadcast every delta in the order it receives them. If a client sends a delta, it must receive its own delta back from the server as the next delta. If it does not, then it will roll back its optimistic delta, and apply the delta it has received. This can be extended to many deltas being sent before any deltas are received.
+# How To
+Padshare generates a new pad every time the site is visited, unless you paste in the URL from an existing document. This provides security through obscurity, but be sure to not lose the link to a pad if you'd like to keep accessing it! To share the document with friends, just send them the full link. Multiple users can edit the document in realtime.
 
-### Assumptions
-The above algorithm for keeping clients in sync relies on the assumption that every delta is sent to the client in the order the server receives them. The important part of this is that it ensures every client applies updates in the exact same way. This means that once every client has received all deltas, every client will be in the same state. This implies that this algorithm would only work in a TCP-style networking environment. This application usings socket.io, whihc in turn using WebSockets and long-polling, but order is preserved.
+# Development
+Padshare uses Docker containers for development and deployment. To run locally run the command
+`sudo docker-compose -f docker-compose.dev.yml`
+
+To test a production build locally, run
+`sudo docker-compose -f docker-compose.local-prod.yml`
+
+Padshare is deployed on AWS, using the docker-compose.prod.yml file
+
+Padshare uses Quill.js to provide the editor, and webapck to build the front-end. A small REST API written in Node.js provides the capability to create new and verify existing documents. Deltas, the unit of change of the editor, are sent to all listening clients via Websockets, and are stored in Redis.
