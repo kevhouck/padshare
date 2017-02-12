@@ -5,7 +5,7 @@
   "repository": "https://github.com/kevhouck/padshare",
   "main": "index.js",
   "scripts": {
-    "start": "npm run-script build-dev && export NODE_ENV=\"development\" && node devserver.js",
+    "start": "export NODE_ENV=\"development\" && webpack-dev-server --host 0.0.0.0 --content-base dist --config=./webpack.config.dev.js --hot",
     "build-dev": "export NODE_ENV=\"development\" && webpack --config ./webpack.config.dev.js",
     "build-prod": "export NODE_ENV=\"production\" && webpack -p --config ./webpack.config.prod.js",
     "test": "echo \"Error: no test specified\" && exit s1"

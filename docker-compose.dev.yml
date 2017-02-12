@@ -27,3 +27,5 @@ services:
      - CORE_HOSTNAME=localhost
      - CORE_PORT=3000
      - CORE_PROTOCOL=http
+    volumes:
+    - "./webapp:/usr/src/app"
