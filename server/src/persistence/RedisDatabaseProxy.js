@@ -1,4 +1,5 @@
 import redis from 'redis'
+import uuid from 'uuid'
 
 /**
  * Abstracts the connection to Redis.
@@ -30,8 +31,24 @@ export default class RedisDatabaseProxy {
      * @param documentId
      */
     createDocument(documentId, callback) {
+        let initDelta = {
+            id: uuid.v4(),
+            delta: {
+                ops: [
+                  {insert: 'Welcome to Padshare!\n\n', attributes: {header: 1 }},
+                  {insert: 'Write something down, and give friends the link so they can access it too.' +
+                  ' Anyone with the link can edit it in realtime\n\n' },
+                  {insert: 'We use security through obscurity, and the only way to return to an existing pad is to paste the link into ' +
+                  'the address bar, so make sure not to lose it!\n\n'},
+                  {insert: 'You can edit this text. Go ahead and try it out!\n\n'},
+                  {insert: 'If you want to create a new doc, just enter \"padshare.io\" in the address bar\n'}
+                ]
+            }
+        }
         this.redisClient.rpush(documentId, 'document created', (err, res) => {
-            callback(err, res)
+           this.redisClient.rpush(documentId, JSON.stringify(initDelta), (err, res) => {
+                callback(err, res)
+           })
         })
     }
 
