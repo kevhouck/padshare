@@ -12,11 +12,11 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.html$/, loader: "raw-loader" },
-      { test: /\.js$/, exclude: [/node_modules/], loaders: ['babel-loader']},
-      { test: /\.css$/, loader: "style-loader!css-loader" },
-      { test: /\.png$/, loader: "url-loader?limit=100000" },
-      { test: /\.jpg$/, loader: "file-loader" }
+      {test: /\.html$/, loader: "raw-loader"},
+      {test: /\.js$/, exclude: [/node_modules/], loaders: ['babel-loader']},
+      {test: /\.css$/, loader: "style-loader!css-loader"},
+      {test: /\.png$/, loader: "url-loader?limit=100000"},
+      {test: /\.jpg$/, loader: "file-loader"}
     ]
   },
   plugins: [

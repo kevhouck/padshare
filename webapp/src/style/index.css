@@ -1,6 +1,7 @@
 html {
     height: 100%;
 }
+
 body {
     min-height: 100%;
 }
@@ -11,7 +12,7 @@ body {
     position: absolute;
     left: 0;
     top: 0;
-    padding:0;
-    margin:0;
+    padding: 0;
+    margin: 0;
     border: 0;
 }
