@@ -8,9 +8,7 @@ require('../../style/EditorStyle.css')
 export default class EditorController {
   constructor(documentId) {
     console.log('Editor Controller')
-
     this.view = EditorView
-
     this.documentId = documentId
     this.deltas = []
   }
@@ -26,6 +24,7 @@ export default class EditorController {
 
     this.generalProxy = new GeneralProxy()
     this.generalProxy.loadDocument(this.documentId, (err, res) => {
+      console.log(res)
       if (err) {
         throw new Error()
       }

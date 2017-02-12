@@ -24,7 +24,7 @@ export default class Router {
           const documentId = splitLocation[2]
           this.activeController = new EditorController(documentId)
         } else {
-          window.location.hash = "/#"
+          window.location.hash = ""
         }
 
         this.activeView.empty().append($(this.activeController.getView()))
@@ -33,9 +33,9 @@ export default class Router {
       } catch (e) {
         console.log(e)
         // go back to main
-        window.location.hash = "/#"
+        window.location.hash = ""
       }
-    } else if (path === '#/') {
+    } else if (path === '') {
       if (this.activeController) {
         this.activeController.tearDown()
       }
@@ -43,13 +43,10 @@ export default class Router {
       this.proxy.createDocument((err, data) => {
         if (err) {
           console.log('Could not create new document')
-          return
+          throw new Error('Look\'s like we can\'t seem to connect to the API...')
         }
-        window.location.hash = "#/document/" + data.documentId
+        window.location.hash = "/document/" + data.documentId
       })
-    } else {
-      // redirect
-      window.location.hash = "#/"
     }
   }
 
