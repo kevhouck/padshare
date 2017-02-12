@@ -7,7 +7,7 @@ module.exports = {
     app: ['./src/index.js', './src/style/index.css', './src/index.html']
   },
   output: {
-    path: path.resolve(__dirname, '/dist'),
+    path: __dirname + '/dist',
     filename: "index.bundle.js",
   },
   module: {

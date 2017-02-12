@@ -4,10 +4,10 @@ var path = require("path");
 
 module.exports = {
   entry: {
-    app: ['./src/index.js']
+    app: ['./src/index.js', './src/style/index.css', './src/index.html']
   },
   output: {
-    path: __dirname + '/dist',
+    path: __dirname +  '/dist',
     filename: "index.bundle.js",
   },
   module: {
