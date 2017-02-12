@@ -1,5 +1,5 @@
 import EditorController from '../controllers/EditorController'
-import MainPageController from '../controllers/MainPageController'
+import GeneralProxy from '../networking/GeneralProxy'
 import $ from 'jquery'
 import _ from 'lodash'
 
@@ -7,6 +7,7 @@ export default class Router {
     constructor() {
         this.activeController = null
         this.activeView = $('#active-view')
+        this.proxy = new GeneralProxy()
     }
 
     route(path) {
@@ -39,12 +40,14 @@ export default class Router {
             if (this.activeController) {
                 this.activeController.tearDown()
             }
-            this.activeController = new MainPageController()
-
-
-            this.activeView.empty().append($(this.activeController.getView()))
-            this.activeController.viewLoaded()
-
+            // creates a new document
+            this.proxy.createDocument((err, data) => {
+                if(err) {
+                  console.log('Could not create new document')
+                  return
+                }
+                window.location.hash = "#/document/" + data.documentId
+            })
         } else {
             // redirect
             window.location.hash = "#/"
