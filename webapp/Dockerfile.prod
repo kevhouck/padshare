@@ -6,11 +6,10 @@ WORKDIR	/usr/src/app
 
 # Install nodejs
 RUN apt-get update
-RUN apt-get install curl -y
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
+RUN apt-get install curl sudo gnupg2 -y
+RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 RUN apt-get install nodejs -y
 RUN apt-get install build-essential -y
-
 
 # Install app dependencies
 COPY package.json .
