@@ -15,6 +15,7 @@ ENV   NPM_CONFIG_PREFIX=/node/.npm-global
 # Create app directory
 RUN   mkdir -p /usr/src/app
 WORKDIR	/usr/src/app
+ENV   PATH=/usr/src/app:$PATH
 
 # Install app
 COPY  . .
@@ -36,4 +37,6 @@ RUN npm run build-prod
 RUN mkdir -p /data/www
 RUN mv dist/* /data/www
 
-CMD ["nginx", "-c", "nginx.prod.conf"]
+RUN ls
+RUN pwd
+CMD ["./prod-start.sh"]
